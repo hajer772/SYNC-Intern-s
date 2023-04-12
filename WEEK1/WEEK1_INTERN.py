@@ -1,9 +1,14 @@
 #------------------------------------------------------------------Library-------------------------------------------------------------------
 import datetime
-import pygame
+import threading 
+from playsound import playsound
 import tkinter as tk
 
-#------------------------------------------------------------------Function-----------------------------------------------------------------
+#------------------------------------------------------------------Functions-----------------------------------------------------------------
+def alarm_sound():
+	alarm_sound_var = threading.Thread(target=alarm)
+	alarm_sound_var.start()
+    
     
 def alarm():
 
@@ -16,12 +21,14 @@ def alarm():
    
     while current_time < alarm_time:
         current_time = datetime.datetime.now().strftime("%H:%M")
-       
+
+    
     while current_time == alarm_time:
 	    print("Wake up!")
-	    pygame.mixer.music.load("rooster.wav") 
-	    pygame.mixer.music.play()
-	   
+	    playsound("rooster.wav")    
+	    current_time = datetime.datetime.now().strftime("%H:%M")
+	    
+	    
 #--------------------------------------------------------------------GUI--------------------------------------------------------------------  
 root = tk.Tk()
 root.title("Alarm Clock")
@@ -39,5 +46,3 @@ minute_input.grid(row=1, column=1)
 tk.Button(root, text="Set Alarm", command=alarm).grid(row=2, column=0, columnspan=2)
 
 root.mainloop()
-
-
